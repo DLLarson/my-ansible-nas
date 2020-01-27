@@ -2,8 +2,8 @@
 - hosts: all
 
   tasks:
-  # Create Linus users
 
+  # Create Linux user accounts
   - name: Create user dlarson
     user:
       name: dlarson
@@ -11,9 +11,36 @@
       update_password: on_create
       create_home: no
       password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
-      group: dlarson
       shell: /usr/sbin/nologin
 
-- name: Include main AnsibleNAS playbook
+  - name: Create user jlarson
+    user:
+      name: jlarson
+      state: present
+      update_password: on_create
+      create_home: no
+      password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
+      shell: /usr/sbin/nologin
+  
+  - name: Create user larzmedia
+    user:
+      name: larzmedia
+      state: present
+      update_password: on_create
+      create_home: no
+      password: "$6$KMec5Yvpw6Y$fhahFHEASjSE6WiHd2caZ7od9jX5gKZ1kfkEXaDdtCw/k1h1bNhRipdRIABXiB73M6yssOOBczZxih/MsEBh/."
+      shell: /usr/sbin/nologin
+  
+  - name: Create user larzmediaro for readonly access to media
+    user:
+      name: larzmediaro
+      state: present
+      update_password: on_create
+      create_home: no
+      password: "$6$albS2wi3e3SrvH7K$ArcVl3w7xDtEXL6v.1CHCMlATUfHUMG6pUHb4T7vtokoZqnHoLZf09vTKpBEaDcUbE8b5JVsIyx9b0YXTGC3E."
+      shell: /usr/sbin/nologin
+
+
+- name: Include the main AnsibleNAS playbook to do it's magic
   import_playbook: ansible-nas/nas.yml
 

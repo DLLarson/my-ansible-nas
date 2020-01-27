@@ -22,48 +22,6 @@ glances_enabled: true
 # Location of ZFS
 zfs_root: "/tank"
 
-# User accounts
-
-#- name: Create user dlarson
-#  user:
-#    name: dlarson
-#    state: present
-#    update_password: on_create
-#    create_home: no
-#    password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
-#    group: dlarson
-#    shell: /usr/sbin/nologin
-#
-#- name: Create user jlarson
-#  user:
-#    name: jlarson
-#    state: present
-#    update_password: on_create
-#    create_home: no
-#    password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
-#    group: jlarson
-#    shell: /usr/sbin/nologin
-#
-#- name: Create user larzmedia
-#  user:
-#    name: larzmedia
-#    state: present
-#    update_password: on_create
-#    create_home: no
-#    password: "$6$KMec5Yvpw6Y$fhahFHEASjSE6WiHd2caZ7od9jX5gKZ1kfkEXaDdtCw/k1h1bNhRipdRIABXiB73M6yssOOBczZxih/MsEBh/."
-#    group: larzmedia
-#    shell: /usr/sbin/nologin
-#
-#- name: Create user larzmediaro for readonly access to media
-#  user:
-#    name: larzmediaro
-#    state: present
-#    update_password: on_create
-#    create_home: no
-#    password: "$6$albS2wi3e3SrvH7K$ArcVl3w7xDtEXL6v.1CHCMlATUfHUMG6pUHb4T7vtokoZqnHoLZf09vTKpBEaDcUbE8b5JVsIyx9b0YXTGC3E."
-#    group: larzmedia
-#    shell: /usr/sbin/nologin
-
 # Ansible-vault defined passwords for Samba
 dlarson_passwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -109,10 +67,10 @@ videos_root: "{{ zfs_root }}/larsonmedia/videos"
 samba_users:
   - name: dlarson
     password: "{{ dlarson_passwd }}"
-#  - name: larzmedia
-#    password: "{{ larzmedia_passwd }}"
-#  - name: larzmediaro
-#    password: "{{ larzmediaro_passwd }}"
+  - name: larzmedia
+    password: "{{ larzmedia_passwd }}"
+  - name: larzmediaro
+    password: "{{ larzmediaro_passwd }}"
 
 samba_shares:
   - name: ibackup
@@ -123,21 +81,21 @@ samba_shares:
     write_list: dlarson
     path: "{{ ibackup_root }}"
 
-#  - name: jbackup
-#    comment: "Judes backups"
-#    public: no
-#    browsable: yes
-#    valid_users: dlarson
-#    write_list: dlarson
-#    path: "{{ jbackup_root }}"
+  - name: jbackup
+    comment: "Judes backups"
+    public: no
+    browsable: yes
+    valid_users: dlarson
+    write_list: dlarson
+    path: "{{ jbackup_root }}"
 
-#  - name: larzmedia
-#    comment: "Overall access to family media"
-#    public: no
-#    browsable: yes
-#    valid_users: larzmedia
-#    write_list: larzmedia
-#    path: "{{ larzmedia_root }}"
+  - name: larzmedia
+    comment: "Overall access to family media"
+    public: no
+    browsable: yes
+    valid_users: larzmedia
+    write_list: larzmedia
+    path: "{{ larzmedia_root }}"
 
 #  - name: books
 #    public: no
