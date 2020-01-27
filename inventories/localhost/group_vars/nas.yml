@@ -6,23 +6,35 @@
 ##       \/     \/     \/        \/          \/               \/     \/     \/
 ##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
 
-# Add your all.yml config overrides to this file. See group_vars/all.yml for all possible settings.
+# Add your all.yml config overrides to this file. See ansible-nas/group_vars/all.yml 
+# and ./group_vars/all.yml for all possible settings.
 
 no_log: false
 
-# Example options
+# Location of essential storage. Using the same pool name as FreeNAS.
+zfs_root: "/vol1"
+
+samba_shares_root: "{{ zfs_root }}/larsonmedia"
+downloads_root: "{{ samba_shares_root }}/downloads"
+
+# TODO... Figure out why docker_home isn't exposed from ansible-nas.
+docker_home: /mnt/Volume2/docker
+ansible_nas_domain: dilbertshrugged.com
+
+# System options.
 ansible_nas_hostname: ansible-nas
 ansible_nas_timezone: America/Chicago
 
-## Enable some applications
+# Enable some applications.
 heimdall_enabled: true
 portainer_enabled: true
 glances_enabled: true
+netdata_enabled: true
+nzbget_enabled: true
 
-# Location of ZFS
-zfs_root: "/tank"
+####sabnzbd_enabled: true
 
-# Ansible-vault defined passwords for Samba
+# Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           30613861656134343330396436386432346131376434613837343939383336373935393161363666
@@ -47,23 +59,23 @@ larzmediaro_passwd: !vault |
           3162666639646635330a633134383633326336353065316138303934663364356238346264653334
           3839
 
-# Where Samba shares are stored
+# System backup Samba shares are stored here.
 ibackup_root: "{{ zfs_root }}/backups/ivanbackup"
 
 jbackup_root: "{{ zfs_root }}/backups/judebackup"
 
-larzmedia_root: "{{ zfs_root }}/larsonmedia"
+# Media related Samba shares are stored here.
+larzmedia_root: "{{ samba_shares_root }}"
 
-books_root: "{{ zfs_root }}/larsonmedia/books"
+books_root: "{{ samba_shares_root }}/books"
 
-music_root: "{{ zfs_root }}/larsonmedia/music"
+music_root: "{{ samba_shares_root }}/music"
 
-photos_root: "{{ zfs_root }}/larsonmedia/photos"
+photos_root: "{{ samba_shares_root }}/photos"
 
-videos_root: "{{ zfs_root }}/larsonmedia/videos"
+videos_root: "{{ samba_shares_root }}/videos"
 
-# Passwords refer to variables protected by ansible-vault
-
+# The passwords refer to variables protected by ansible-vault.
 samba_users:
   - name: dlarson
     password: "{{ dlarson_passwd }}"
@@ -72,6 +84,7 @@ samba_users:
   - name: larzmediaro
     password: "{{ larzmediaro_passwd }}"
 
+# Define our Samba shares.
 samba_shares:
   - name: ibackup
     comment: "IVANs backups"
@@ -131,4 +144,3 @@ samba_shares:
     valid_users: larzmediaro
     group: ansible-nas
     path: "{{ videos_root }}"
-

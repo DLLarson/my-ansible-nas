@@ -2,7 +2,6 @@
 - hosts: all
 
   tasks:
-
   # Create Linux user accounts
   - name: Create user dlarson
     user:
@@ -10,8 +9,9 @@
       state: present
       update_password: on_create
       create_home: no
+      groups: "ansible-nas"
       password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
-      shell: /usr/sbin/nologin
+      shell: /bin/bash
 
   - name: Create user jlarson
     user:
@@ -19,8 +19,9 @@
       state: present
       update_password: on_create
       create_home: no
+      groups: "ansible-nas"
       password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
-      shell: /usr/sbin/nologin
+      shell: /bin/bash
   
   - name: Create user larzmedia
     user:
@@ -28,8 +29,9 @@
       state: present
       update_password: on_create
       create_home: no
+      groups: "ansible-nas"
       password: "$6$KMec5Yvpw6Y$fhahFHEASjSE6WiHd2caZ7od9jX5gKZ1kfkEXaDdtCw/k1h1bNhRipdRIABXiB73M6yssOOBczZxih/MsEBh/."
-      shell: /usr/sbin/nologin
+      shell: /bin/bash
   
   - name: Create user larzmediaro for readonly access to media
     user:
@@ -37,10 +39,22 @@
       state: present
       update_password: on_create
       create_home: no
+      groups: "ansible-nas"
       password: "$6$albS2wi3e3SrvH7K$ArcVl3w7xDtEXL6v.1CHCMlATUfHUMG6pUHb4T7vtokoZqnHoLZf09vTKpBEaDcUbE8b5JVsIyx9b0YXTGC3E."
-      shell: /usr/sbin/nologin
-
+      shell: /bin/bash
 
 - name: Include the main AnsibleNAS playbook to do it's magic
   import_playbook: ansible-nas/nas.yml
 
+# Now handle our local post-Ansible-NAS processing.
+- hosts: all
+  roles:
+    - role: geerlingguy.docker
+      tags:
+        - docker
+        - skip_ansible_lint
+
+  tasks:
+  - import_tasks: tasks/sabnzbd.yml
+    when: (sabnzbd_enabled | default(False))
+    tags: sabnzbd
