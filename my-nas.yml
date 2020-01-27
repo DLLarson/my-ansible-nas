@@ -1,0 +1,19 @@
+---
+- hosts: all
+
+  tasks:
+  # Create Linus users
+
+  - name: Create user dlarson
+    user:
+      name: dlarson
+      state: present
+      update_password: on_create
+      create_home: no
+      password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
+      group: dlarson
+      shell: /usr/sbin/nologin
+
+- name: Include main AnsibleNAS playbook
+  import_playbook: ansible-nas/nas.yml
+

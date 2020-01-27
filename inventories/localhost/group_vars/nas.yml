@@ -1,0 +1,168 @@
+##                       ._____.   .__
+##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
+##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
+##   / __ \|   |  \\___ \|  || \_\ \  |_\  ___/  /_____/ |   |  \/ __ \_\___ \
+##  (____  /___|  /____  >__||___  /____/\___  >         |___|  (____  /____  >
+##       \/     \/     \/        \/          \/               \/     \/     \/
+##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
+
+# Add your all.yml config overrides to this file. See group_vars/all.yml for all possible settings.
+
+no_log: false
+
+# Example options
+ansible_nas_hostname: ansible-nas
+ansible_nas_timezone: America/Chicago
+
+## Enable some applications
+heimdall_enabled: true
+portainer_enabled: true
+glances_enabled: true
+
+# Location of ZFS
+zfs_root: "/tank"
+
+# User accounts
+
+#- name: Create user dlarson
+#  user:
+#    name: dlarson
+#    state: present
+#    update_password: on_create
+#    create_home: no
+#    password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
+#    group: dlarson
+#    shell: /usr/sbin/nologin
+#
+#- name: Create user jlarson
+#  user:
+#    name: jlarson
+#    state: present
+#    update_password: on_create
+#    create_home: no
+#    password: "$6$.gijCVAXbENBqQ$iDfsr2vMB8o2G.e.as18Q1jsLhix7DOs.7MUQkmWHU2zF0yhqMGwd1rT.X7e3knGq4/5KIfsV21Pe02nd4yJv0"
+#    group: jlarson
+#    shell: /usr/sbin/nologin
+#
+#- name: Create user larzmedia
+#  user:
+#    name: larzmedia
+#    state: present
+#    update_password: on_create
+#    create_home: no
+#    password: "$6$KMec5Yvpw6Y$fhahFHEASjSE6WiHd2caZ7od9jX5gKZ1kfkEXaDdtCw/k1h1bNhRipdRIABXiB73M6yssOOBczZxih/MsEBh/."
+#    group: larzmedia
+#    shell: /usr/sbin/nologin
+#
+#- name: Create user larzmediaro for readonly access to media
+#  user:
+#    name: larzmediaro
+#    state: present
+#    update_password: on_create
+#    create_home: no
+#    password: "$6$albS2wi3e3SrvH7K$ArcVl3w7xDtEXL6v.1CHCMlATUfHUMG6pUHb4T7vtokoZqnHoLZf09vTKpBEaDcUbE8b5JVsIyx9b0YXTGC3E."
+#    group: larzmedia
+#    shell: /usr/sbin/nologin
+
+# Ansible-vault defined passwords for Samba
+dlarson_passwd: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          30613861656134343330396436386432346131376434613837343939383336373935393161363666
+          3338373432653536653236346633366162666638393163640a666632373732343736653633363439
+          36306665333736616337323335393365613434356336313065316261363333396561393333383566
+          3039373633633537320a313136333961386139376431666463653131373234313261386363353434
+          3532
+
+larzmedia_passwd: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64333539633961333762396663663139333537313431306131333635386566636636656231646335
+          3538643732303331306235323261663832326565353163310a663233303330373534373133313061
+          35326135333661346435373965636637346431366233633262356130393232663030653461373038
+          3261393638313761650a326562303464323636343037373863616539363961346337313262373235
+          66396466646536313332386561633834633636336238313166306637316339363462
+
+larzmediaro_passwd: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          61626465626637303962613234316566313365336435336433633435613663333530616263353165
+          3236623565623134633935303935626134653065386633380a623865346334356134653764303136
+          31306137323462386233616665363536623634636632613461353332326561653663353733303962
+          3162666639646635330a633134383633326336353065316138303934663364356238346264653334
+          3839
+
+# Where Samba shares are stored
+ibackup_root: "{{ zfs_root }}/backups/ivanbackup"
+
+jbackup_root: "{{ zfs_root }}/backups/judebackup"
+
+larzmedia_root: "{{ zfs_root }}/larsonmedia"
+
+books_root: "{{ zfs_root }}/larsonmedia/books"
+
+music_root: "{{ zfs_root }}/larsonmedia/music"
+
+photos_root: "{{ zfs_root }}/larsonmedia/photos"
+
+videos_root: "{{ zfs_root }}/larsonmedia/videos"
+
+# Passwords refer to variables protected by ansible-vault
+
+samba_users:
+  - name: dlarson
+    password: "{{ dlarson_passwd }}"
+#  - name: larzmedia
+#    password: "{{ larzmedia_passwd }}"
+#  - name: larzmediaro
+#    password: "{{ larzmediaro_passwd }}"
+
+samba_shares:
+  - name: ibackup
+    comment: "IVANs backups"
+    public: no
+    browsable: yes
+    valid_users: dlarson
+    write_list: dlarson
+    path: "{{ ibackup_root }}"
+
+#  - name: jbackup
+#    comment: "Judes backups"
+#    public: no
+#    browsable: yes
+#    valid_users: dlarson
+#    write_list: dlarson
+#    path: "{{ jbackup_root }}"
+
+#  - name: larzmedia
+#    comment: "Overall access to family media"
+#    public: no
+#    browsable: yes
+#    valid_users: larzmedia
+#    write_list: larzmedia
+#    path: "{{ larzmedia_root }}"
+
+#  - name: books
+#    public: no
+#    readonly: yes
+#    browsable: yes
+#    valid_users: larzmediaro
+#    path: "{{ books_root }}"
+
+ # - name: music
+ #   public: no
+ #   readonly: yes
+ #   browsable: yes
+ #   valid_users: larzmediaro
+ #   path: "{{ music_root }}"
+
+ # - name: photos
+ #   public: no
+ #   readonly: yes
+ #   browsable: yes
+ #   valid_users: larzmediaro
+ #   path: "{{ photos_root }}"
+
+ # - name: videos
+ #   public: no
+ #   readonly: yes
+ #   browsable: yes
+ #   valid_users: larzmediaro
+ #   path: "{{ videos_root }}"
