@@ -79,6 +79,7 @@ samba_shares:
     browsable: yes
     valid_users: dlarson
     write_list: dlarson
+    group: ansible-nas
     path: "{{ ibackup_root }}"
 
   - name: jbackup
@@ -87,6 +88,7 @@ samba_shares:
     browsable: yes
     valid_users: dlarson
     write_list: dlarson
+    group: ansible-nas
     path: "{{ jbackup_root }}"
 
   - name: larzmedia
@@ -95,32 +97,38 @@ samba_shares:
     browsable: yes
     valid_users: larzmedia
     write_list: larzmedia
+    group: ansible-nas
     path: "{{ larzmedia_root }}"
 
-#  - name: books
-#    public: no
-#    readonly: yes
-#    browsable: yes
-#    valid_users: larzmediaro
-#    path: "{{ books_root }}"
+  - name: books
+    public: no
+    readonly: yes
+    browsable: yes
+    valid_users: larzmediaro
+    group: ansible-nas
+    path: "{{ books_root }}"
 
- # - name: music
- #   public: no
- #   readonly: yes
- #   browsable: yes
- #   valid_users: larzmediaro
- #   path: "{{ music_root }}"
+  - name: music
+    public: no
+    readonly: yes
+    browsable: yes
+    valid_users: larzmediaro
+    group: ansible-nas
+    path: "{{ music_root }}"
+ 
+  - name: photos
+    public: no
+    readonly: yes
+    browsable: yes
+    valid_users: larzmediaro
+    group: ansible-nas
+    path: "{{ photos_root }}"
+ 
+  - name: videos
+    public: no
+    readonly: yes
+    browsable: yes
+    valid_users: larzmediaro
+    group: ansible-nas
+    path: "{{ videos_root }}"
 
- # - name: photos
- #   public: no
- #   readonly: yes
- #   browsable: yes
- #   valid_users: larzmediaro
- #   path: "{{ photos_root }}"
-
- # - name: videos
- #   public: no
- #   readonly: yes
- #   browsable: yes
- #   valid_users: larzmediaro
- #   path: "{{ videos_root }}"
