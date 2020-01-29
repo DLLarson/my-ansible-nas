@@ -43,18 +43,18 @@
       password: "$6$albS2wi3e3SrvH7K$ArcVl3w7xDtEXL6v.1CHCMlATUfHUMG6pUHb4T7vtokoZqnHoLZf09vTKpBEaDcUbE8b5JVsIyx9b0YXTGC3E."
       shell: /bin/bash
 
-- name: Include the main AnsibleNAS playbook to do it's magic
-  import_playbook: ansible-nas/nas.yml
+      #- name: Include the main AnsibleNAS playbook to do it's magic
+      #import_playbook: ansible-nas/nas.yml
 
 # Now handle our local post-Ansible-NAS processing.
-- hosts: all
-  roles:
-    - role: geerlingguy.docker
-      tags:
-        - docker
-        - skip_ansible_lint
-
-  tasks:
-  - import_tasks: tasks/sabnzbd.yml
-    when: (sabnzbd_enabled | default(False))
-    tags: sabnzbd
+#- hosts: all
+#  roles:
+#    - role: geerlingguy.docker
+#      tags:
+#        - docker
+#        - skip_ansible_lint
+#
+#  tasks:
+#  - import_tasks: tasks/sabnzbd.yml
+#    when: (sabnzbd_enabled | default(False))
+#    tags: sabnzbd

@@ -22,7 +22,8 @@ docker_home: /mnt/Volume2/docker
 ansible_nas_domain: dilbertshrugged.com
 
 # System options.
-ansible_nas_hostname: ansible-nas
+ansible_nas_hostname: nas
+samba_workgroup: LARZVILLE
 ansible_nas_timezone: America/Chicago
 
 # Enable some applications.
@@ -30,7 +31,7 @@ heimdall_enabled: true
 portainer_enabled: true
 glances_enabled: true
 netdata_enabled: true
-nzbget_enabled: true
+#nzbget_enabled: true
 
 ####sabnzbd_enabled: true
 
@@ -75,6 +76,8 @@ photos_root: "{{ samba_shares_root }}/photos"
 
 videos_root: "{{ samba_shares_root }}/videos"
 
+###samba_global_include: global-include.conf
+
 # The passwords refer to variables protected by ansible-vault.
 samba_users:
   - name: dlarson
@@ -108,8 +111,8 @@ samba_shares:
     comment: "Overall access to family media"
     public: no
     browsable: yes
-    valid_users: larzmedia
-    write_list: larzmedia
+    valid_users: larzmedia, dlarson
+    write_list: larzmedia, dlarson
     group: ansible-nas
     path: "{{ larzmedia_root }}"
 
@@ -117,7 +120,7 @@ samba_shares:
     public: no
     readonly: yes
     browsable: yes
-    valid_users: larzmediaro
+    valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ books_root }}"
 
@@ -125,7 +128,7 @@ samba_shares:
     public: no
     readonly: yes
     browsable: yes
-    valid_users: larzmediaro
+    valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ music_root }}"
  
@@ -133,7 +136,7 @@ samba_shares:
     public: no
     readonly: yes
     browsable: yes
-    valid_users: larzmediaro
+    valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ photos_root }}"
  
@@ -141,6 +144,6 @@ samba_shares:
     public: no
     readonly: yes
     browsable: yes
-    valid_users: larzmediaro
+    valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ videos_root }}"
