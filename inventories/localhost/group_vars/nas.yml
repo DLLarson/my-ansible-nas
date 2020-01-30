@@ -17,26 +17,36 @@ zfs_root: "/vol1"
 samba_shares_root: "{{ zfs_root }}/larsonmedia"
 downloads_root: "{{ samba_shares_root }}/downloads"
 
-# TODO... Figure out why docker_home isn't exposed from ansible-nas.
-docker_home: /mnt/Volume2/docker
-ansible_nas_domain: dilbertshrugged.com
+# Set our host name from the environment if defined. This is for the
+# test server so the computer names don't collide on the LAN.
+our_host_name: "{{ lookup('env', 'ANSIBLE_HOST_NAME_OVERRIDE') | default('nas', true) }}"
 
 # System options.
-ansible_nas_hostname: nas
-samba_workgroup: LARZVILLE
+ansible_nas_hostname: "{{ our_host_name }}"
+ansible_nas_domain: dilbertshrugged.com
 ansible_nas_timezone: America/Chicago
+
+samba_workgroup: LARZVILLE
+samba_netbios_name: "{{ our_host_name }}"
 
 # Enable some applications.
 heimdall_enabled: true
 portainer_enabled: true
 glances_enabled: true
 netdata_enabled: true
+sabnzbd_enabled: true
 #nzbget_enabled: true
-
-####sabnzbd_enabled: true
 
 # Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          30613861656134343330396436386432346131376434613837343939383336373935393161363666
+          3338373432653536653236346633366162666638393163640a666632373732343736653633363439
+          36306665333736616337323335393365613434356336313065316261363333396561393333383566
+          3039373633633537320a313136333961386139376431666463653131373234313261386363353434
+          3532
+
+jlarson_passwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           30613861656134343330396436386432346131376434613837343939383336373935393161363666
           3338373432653536653236346633366162666638393163640a666632373732343736653633363439
@@ -76,12 +86,12 @@ photos_root: "{{ samba_shares_root }}/photos"
 
 videos_root: "{{ samba_shares_root }}/videos"
 
-###samba_global_include: global-include.conf
-
 # The passwords refer to variables protected by ansible-vault.
 samba_users:
   - name: dlarson
     password: "{{ dlarson_passwd }}"
+  - name: jlarson
+    password: "{{ jlarson_passwd }}"
   - name: larzmedia
     password: "{{ larzmedia_passwd }}"
   - name: larzmediaro
@@ -102,8 +112,8 @@ samba_shares:
     comment: "Judes backups"
     public: no
     browsable: yes
-    valid_users: dlarson
-    write_list: dlarson
+    valid_users: dlarson, jlarson
+    write_list: dlarson, jlarson
     group: ansible-nas
     path: "{{ jbackup_root }}"
 
@@ -147,3 +157,4 @@ samba_shares:
     valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ videos_root }}"
+
