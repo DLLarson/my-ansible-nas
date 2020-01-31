@@ -37,6 +37,10 @@ netdata_enabled: true
 sabnzbd_enabled: true
 #nzbget_enabled: true
 
+# Gitea defn's
+gitea_enabled: true
+gitea_data_directory: "{{ zfs_root }}/gitdata"
+
 # Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
