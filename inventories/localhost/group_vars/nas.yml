@@ -75,6 +75,11 @@ ibackup_root: "{{ zfs_root }}/backups/ivanbackup"
 
 jbackup_root: "{{ zfs_root }}/backups/judebackup"
 
+# Network backed directories for us. 
+dlarson_root: "{{ zfs_root }}/home/dlarson"
+
+jlarson_root: "{{ zfs_root }}/home/jlarson"
+
 # Media related Samba shares are stored here.
 larzmedia_root: "{{ samba_shares_root }}"
 
@@ -116,6 +121,24 @@ samba_shares:
     write_list: dlarson, jlarson
     group: ansible-nas
     path: "{{ jbackup_root }}"
+
+  - name: dlarson
+    comment: "Dales shared workspace"
+    public: no
+    browsable: yes
+    valid_users: dlarson
+    write_list: dlarson
+    group: ansible-nas
+    path: "{{ dlarson_root }}"
+
+  - name: jlarson
+    comment: "Judes shared workspace."
+    public: no
+    browsable: yes
+    valid_users: jlarson, dlarson
+    write_list: jlarson, dlarson
+    group: ansible-nas
+    path: "{{ jlarson_root }}"
 
   - name: larzmedia
     comment: "Overall access to family media"
