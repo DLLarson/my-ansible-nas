@@ -23,6 +23,8 @@ our_host_name: "{{ lookup('env', 'ANSIBLE_HOST_NAME_OVERRIDE') | default('nas', 
 
 # System options.
 ansible_nas_hostname: "{{ our_host_name }}"
+ansible_nas_user: skb
+ansible_nas_email: dlarson42@gmail.com
 ansible_nas_domain: dilbertshrugged.com
 ansible_nas_timezone: America/Chicago
 
@@ -36,6 +38,12 @@ glances_enabled: true
 netdata_enabled: true
 sabnzbd_enabled: true
 #nzbget_enabled: true
+
+# sabnzbd settings.
+sabnzbd_default_directory: "{{ docker_home }}/sabnzbd/data"
+sabnzbd_data_directory: "{{ lookup('env', 'ANSIBLE_SABNZBD_DATA_OVERRIDE') | default(lookup('vars', 'sabnzbd_default_directory'), true) }}"
+sabnzbd_user_id: "1001"
+sabnzbd_group_id: "1001"
 
 # Gitea defn's
 gitea_enabled: true
