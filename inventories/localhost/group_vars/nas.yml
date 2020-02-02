@@ -31,6 +31,9 @@ ansible_nas_timezone: America/Chicago
 samba_workgroup: LARZVILLE
 samba_netbios_name: "{{ our_host_name }}"
 
+# Enable the reverse proxy for external access.
+traefik_enabled: true
+
 # Enable some applications.
 heimdall_enabled: true
 portainer_enabled: true
@@ -48,6 +51,7 @@ sabnzbd_group_id: "1001"
 # Gitea defn's
 gitea_enabled: true
 gitea_data_directory: "{{ zfs_root }}/gitdata"
+gitea_available_externally: "true"
 
 # Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
