@@ -40,7 +40,9 @@ portainer_enabled: true
 glances_enabled: true
 netdata_enabled: true
 sabnzbd_enabled: true
-#nzbget_enabled: true
+
+guacamole_enabled: true
+guacamole_available_externally: "true"
 
 # sabnzbd settings.
 sabnzbd_default_directory: "{{ docker_home }}/sabnzbd/data"
