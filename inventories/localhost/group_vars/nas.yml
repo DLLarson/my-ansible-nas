@@ -55,6 +55,11 @@ sabnzbd_group_id: "1001"
 #gitea_data_directory: "{{ zfs_root }}/gitdata"
 #gitea_available_externally: "true"
 
+# Gitlab defn's
+gitlab_enabled: true
+gitlab_data_directory: "{{ zfs_root }}/gitdata/gitlab"
+gitlab_available_externally: "true"
+
 # Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -198,4 +203,3 @@ samba_shares:
     valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ videos_root }}"
-
