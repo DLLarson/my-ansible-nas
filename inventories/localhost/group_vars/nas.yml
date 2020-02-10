@@ -50,10 +50,12 @@ sabnzbd_data_directory: "{{ lookup('env', 'ANSIBLE_SABNZBD_DATA_OVERRIDE') | def
 sabnzbd_user_id: "1001"
 sabnzbd_group_id: "1001"
 
-# Gitea defn's
-#gitea_enabled: true
-#gitea_data_directory: "{{ zfs_root }}/gitdata"
-#gitea_available_externally: "true"
+# transmission settings.
+transmission_enabled: true
+transmission_default_download_directory: "{{ docker_home }}/transmission"
+transmission_download_directory: "{{ lookup('env', 'ANSIBLE_TRANSMISSION_DLOAD_OVERRIDE') | default(lookup('vars', 'transmission_default_download_directory'), true) }}"
+transmission_user_id: "1001"
+transmission_group_id: "1001"
 
 # Gitlab defn's
 gitlab_enabled: true
@@ -195,6 +197,15 @@ samba_shares:
     valid_users: larzmediaro, @ansible-nas
     group: ansible-nas
     path: "{{ photos_root }}"
+ 
+  - name: torrents
+    public: no
+    readonly: yes
+    browsable: yes
+    valid_users: dlarson, @ansible-nas
+    write_list: dlarson, @ansible-nas
+    group: ansible-nas
+    path: "{{ torrents_root }}"
  
   - name: videos
     public: no
