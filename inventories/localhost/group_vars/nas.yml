@@ -61,6 +61,8 @@ transmission_group_id: "1001"
 gitlab_enabled: true
 gitlab_data_directory: "{{ zfs_root }}/gitdata/gitlab"
 gitlab_available_externally: "true"
+gitlab_user_id: "998"
+gitlab_group_id: "998"
 
 # Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
