@@ -58,9 +58,9 @@ transmission_user_id: "1001"
 transmission_group_id: "1001"
 
 # Gitlab defn's
-gitlab_enabled: true
+gitlab_enabled: false
 gitlab_data_directory: "{{ zfs_root }}/gitdata/gitlab"
-gitlab_available_externally: "true"
+gitlab_available_externally: "false"
 gitlab_user_id: "998"
 gitlab_group_id: "998"
 
