@@ -45,8 +45,11 @@ guacamole_enabled: true
 guacamole_available_externally: "true"
 
 # sabnzbd settings.
+sabznbd_enabled: true
 sabnzbd_default_directory: "{{ docker_home }}/sabnzbd/data"
 sabnzbd_data_directory: "{{ lookup('env', 'ANSIBLE_SABNZBD_DATA_OVERRIDE') | default(lookup('vars', 'sabnzbd_default_directory'), true) }}"
+sabnzbd_downloads_directory: "{{ sabnzbd_data_directory }}/downloads"
+sabnzbd_incomplete_directory: "{{ sabnzbd_data_directory }}/sabnzbd-incomplete"
 sabnzbd_user_id: "1001"
 sabnzbd_group_id: "1001"
 
