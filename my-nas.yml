@@ -1,6 +1,8 @@
 ---
 - hosts: all
 
+  # Create the ansible-nas user and group so available
+  # below when creating custom user accounts.
   tasks:
   - name: Create ansible-nas group
     group:
