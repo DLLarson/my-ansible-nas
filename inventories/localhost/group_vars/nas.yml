@@ -19,7 +19,7 @@ downloads_root: "{{ samba_shares_root }}/downloads"
 
 # Set our host name from the environment if defined. This is for the
 # test server so the computer names don't collide on the LAN.
-our_host_name: "{{ lookup('env', 'ANSIBLE_HOST_NAME_OVERRIDE') | default('nas2', true) }}"
+our_host_name: "{{ lookup('env', 'ANSIBLE_HOST_NAME_OVERRIDE') | default('nas', true) }}"
 
 # System options.
 ansible_nas_hostname: "{{ our_host_name }}"
