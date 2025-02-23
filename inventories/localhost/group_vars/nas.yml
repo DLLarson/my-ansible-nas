@@ -38,7 +38,7 @@ traefik_enabled: true
 heimdall_enabled: true
 portainer_enabled: true
 glances_enabled: true
-netdata_enabled: true
+#netdata_enabled: true
 sabnzbd_enabled: true
 
 guacamole_enabled: true
