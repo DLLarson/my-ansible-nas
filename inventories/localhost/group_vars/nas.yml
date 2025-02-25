@@ -175,7 +175,7 @@ samba_shares:
     public: no
     browsable: yes
     valid_users: larzmedia, dlarson
-    write_list: larzmedia, dlarson
+    write_list: larzmedia, dlarson, jlarson
     group: ansible-nas
     path: "{{ larzmedia_root }}"
 
