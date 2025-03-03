@@ -1,0 +1,52 @@
+From fcb7759b26c500e650cd1e9e95430ef232e404a7 Mon Sep 17 00:00:00 2001
+From: Dale Larson <dlarson42@gmail.com>
+Date: Mon, 3 Mar 2025 16:06:36 -0600
+Subject: [PATCH] Mods to the Emby container.
+
+---
+ roles/emby/defaults/main.yml | 7 +++++--
+ roles/emby/tasks/main.yml    | 1 +
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/roles/emby/defaults/main.yml b/roles/emby/defaults/main.yml
+index 627ce49f..a617011c 100644
+--- a/roles/emby/defaults/main.yml
++++ b/roles/emby/defaults/main.yml
+@@ -6,11 +6,14 @@ emby_available_externally: false
+ emby_config_directory: "{{ docker_home }}/emby/config"
+ emby_movies_directory: "{{ movies_root }}"
+ emby_tv_directory: "{{ tv_root }}"
++emby_music_directory: "{{ music_root }}"
++
+ 
+ # If you're paranoid, set permissions to "ro" so Emby won't ever be able to
+ # delete your files
+ emby_movies_permissions: "rw"
+ emby_tv_permissions: "rw"
++emby_music_permissions: "rw"
+ 
+ # uid / gid
+ emby_user_id: "0"
+@@ -30,5 +33,5 @@ emby_image: emby/embyserver
+ emby_image_tag: beta
+ 
+ # Device mappings for the docker container. E.g. To enable hardware transcoding:
+-# emby_devices:
+-#  - "/dev/dri:/dev/dri"
++emby_devices:
++  - "/dev/dri:/dev/dri"
+diff --git a/roles/emby/tasks/main.yml b/roles/emby/tasks/main.yml
+index 9f150ad0..aa2567bb 100644
+--- a/roles/emby/tasks/main.yml
++++ b/roles/emby/tasks/main.yml
+@@ -17,6 +17,7 @@
+           - "{{ emby_config_directory }}:/config:rw"
+           - "{{ emby_movies_directory }}:/movies:{{ emby_movies_permissions }}"
+           - "{{ emby_tv_directory }}:/tv:{{ emby_tv_permissions }}"
++          - "{{ emby_music_directory }}:/music:{{ emby_music_permissions }}"
+         ports:
+           - "{{ emby_port_http }}:8096"
+           - "{{ emby_port_https }}:8920"
+-- 
+2.34.1
+
