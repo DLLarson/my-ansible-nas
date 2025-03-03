@@ -67,6 +67,24 @@ gitlab_available_externally: "false"
 gitlab_user_id: "998"
 gitlab_group_id: "998"
 
+# Emby - The media is on the 'nasmedia' computer sharing its content with /vol1/media.
+
+emby_enabled: true
+emby_available_externally: false
+
+# Upon mount the /vol1/media directory is overlaid by the nasmedia samba share.
+# Please don't schedule zfs snapshots for the root dataset. The media
+# has snapshots on its own ZFS volume.
+emby_media_directory: "{{ zfs_root }}/media"
+
+emby_config_directory: "{{ docker_home }}/emby/config"
+
+emby_movies_directory: "{{ emby_media_directory }}/movies"
+emby_tv_directory: "{{ emby_media_directory }}/tv"
+emby_music_directory: "{{ emby_media_directory }}/music"
+
+emby_hostname: "{{ our_host_name }}"
+
 # Ansible-vault defined passwords for Samba.
 dlarson_passwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
