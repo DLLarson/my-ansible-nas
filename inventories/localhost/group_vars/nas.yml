@@ -71,6 +71,7 @@ gitlab_group_id: "998"
 
 emby_enabled: true
 emby_available_externally: false
+emby_image_tag: latest
 
 # Upon mount the /vol1/media directory is overlaid by the nasmedia samba share.
 # Please don't schedule zfs snapshots for the root dataset. The media
