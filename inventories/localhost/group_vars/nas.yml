@@ -76,7 +76,7 @@ emby_image_tag: latest
 # Upon mount the /vol1/media directory is overlaid by the nasmedia samba share.
 # Please don't schedule zfs snapshots for the root dataset. The media
 # has snapshots on its own ZFS volume.
-emby_media_directory: "{{ zfs_root }}/media"
+emby_media_directory: "/themaxx/media"
 
 emby_config_directory: "{{ docker_home }}/emby/config"
 
