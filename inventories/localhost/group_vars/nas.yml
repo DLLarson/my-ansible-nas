@@ -12,7 +12,7 @@
 no_log: false
 
 # Location of essential storage. Using the same pool name as FreeNAS.
-zfs_root: "/vol1"
+zfs_root: "/ssdpool"
 
 samba_shares_root: "{{ zfs_root }}/larsonmedia"
 downloads_root: "{{ samba_shares_root }}/downloads"
